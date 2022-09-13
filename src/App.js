@@ -1,39 +1,37 @@
-import React, { useState } from 'react';
-import './App.css'
-
+import React from 'react'
+import Home from './Home';
+import Product from './Product';
+import Blogs from './Blogs';
+import './All.css'
+import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+import ProductDetail from './ProductDetail';
 const App = () => {
-  const [records,setRecords]=useState([]);
-  const [data,setdata]=useState({no:''});
-  const handler=(e)=>{
-    setdata({...data,[e.target.name]:e.target.value})
-  };
-  // console.log(data.no);
-  const handlerAdd=()=>{
-    fetch('https://randomuser.me/api/?results='+ data.no).then((response)=>response.json()).then((data)=>{
-      // console.log(data.results);
-      setRecords(data.results)
-    })
-  };
-  return (
-    <div>
-      <h2 className='tittle'>Generate Random User Data</h2>
-      <h2 className='tittle-data'><b>Number : </b><input type="text" name='no' value={data.no} onChange={handler}/></h2>
-      <p><input className='btn' type="button" value="Generate"  onClick={handlerAdd}/> </p>     
-      {
-        records.map((row,i)=>{return(
-          <div key={i} className="data">
-              <img className='user-img' src={row.picture.large} alt={row.name.first} />
-              <h2 className='name'>{row.name.first}&nbsp;{row.name.last} | {row.gender} </h2>
-              <p><b>Email : </b>{row.email}</p>
-              <p><b>Age :</b> {row.dob.age}</p>
-              <p><b>Mobile No :</b> {row.cell}</p>
-              <p><b>Address :</b> {row.location.street.number} {row.location.street.name}, {row.location.state}, {row.location.country}</p>
-
-          </div> 
-      )})
-      }
-    </div>
-  )
+    return (
+        <div>
+            <div className="wrap-1">
+                <div className="container">
+                    <div className="row">
+                        <h1 className='logo'>VStore</h1>
+                        <Router>
+                            <div className="Nav-Link">
+                                <Link className="nav" to='/'>Home</Link>
+                                <Link className="nav" to='/product'>Products</Link>
+                                <Link className="nav" to='/blogs'>Blogs</Link>
+                            </div>
+                            <div className="margin-top" >
+                            <Switch>
+                                <Route path="/" component={Home} exact></Route>
+                                <Route path="/product" component={Product}></Route>
+                                <Route path="/ProductDetail/:fn" component={ProductDetail}></Route>
+                                <Route path="/blogs" component={Blogs}></Route>
+                            </Switch>
+                            </div>
+                        </Router>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
 }
 
 export default App;
